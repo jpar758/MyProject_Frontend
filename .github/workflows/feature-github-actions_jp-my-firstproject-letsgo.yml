@@ -6,8 +6,8 @@ name: Azure App Service - msayearbookfrontend(Production), Build and deploy Node
 on:
   push:
     branches:
-      - main
-      - feature/* 
+      - master
+ 
 
 jobs:
   build-and-deploy:
