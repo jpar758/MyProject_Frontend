@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
-import { AppBar, createStyles, IconButton, makeStyles, Theme, Toolbar } from "@material-ui/core";
+import { AppBar, createStyles, Drawer, IconButton, makeStyles, Theme, Toolbar } from "@material-ui/core";
 import {Typography } from "@material-ui/core";
+import { Sidebar } from "../Sidebar/Sidebar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,23 +17,30 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
 export default function ProjectHeader() {
-    const classes = useStyles();
+  const [sideBar, setSideBar] = useState(false);
+  const classes = useStyles();
+
+  const toggleSideBar = () => {
+      setSideBar(!sideBar);
+  };
   return (
     <div className = {classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            className={classes.menuButton}
-            edge="start"
-            color="inherit" 
-            aria-label="menu"
-        >
-            <MenuIcon/>
-          </IconButton>
+          <IconButton className={classes.menuButton} edge="start" color="inherit" aria-label="menu"
+          onClick={toggleSideBar}>
+            <MenuIcon />
+              <Drawer anchor="left" open={sideBar} onClose={toggleSideBar}>
+                <Sidebar/>
+              </Drawer>
+        </IconButton>
           <Typography className= {classes.title} variant="h6">Whats On The Menu?</Typography>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+
