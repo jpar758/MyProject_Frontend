@@ -7,7 +7,7 @@ import pigLogo from "../../assets/logos/pig.jpeg";
 export const SOCIAL_MEDIA = [
   {
     name: "Cow Logo",
-    url: "https://www.facebook.com/studentaccelerator/",
+    url: "",
     logo: cowLogo,
   },
   {
@@ -17,7 +17,7 @@ export const SOCIAL_MEDIA = [
   },
   {
     name: "Pig Logo",
-    url: "https://www.facebook.com/groups/msaccelerator/",
+    url: "",
     logo: pigLogo,
   },
 ];
