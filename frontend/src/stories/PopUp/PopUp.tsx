@@ -14,14 +14,14 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal(props : any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button onClick={handleOpen}>Share now</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -29,8 +29,7 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        <h2 id="unstyled-modal-title">Text in a modal</h2>
-        <p id="unstyled-modal-description">Aliquid amet deserunt earum!</p>
+        {props.children}
         </Box>
       </Modal>
     </div>

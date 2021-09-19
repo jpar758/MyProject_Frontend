@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
 export const Footer = () => {
   const classes = useStyles();
 
@@ -39,16 +38,14 @@ export const Footer = () => {
         spacing={4}
       >
         <Grid item xs={4}>
-        <SocialIcon {...MENU_LOGO} />
-                    {"Welcome to Whats on the Menu"}
+          <SocialIcon {...MENU_LOGO} />
+          {"Welcome to Whats on the Menu"}
         </Grid>
         <Grid item xs={6}>
-            {SOCIAL_MEDIA.map((icon: SocialIconProps) => {
-                return (
-                    <SocialIcon key={icon.name} {...icon} />
-                )
-            })}
-            </Grid>
+          {SOCIAL_MEDIA.map((icon: SocialIconProps) => {
+            return <SocialIcon key={icon.name} {...icon} />;
+          })}
+        </Grid>
       </Grid>
     </footer>
   );
