@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import "./App.css";
 import ProjectHeader from "./stories/ProjectHeader/ProjectHeader";
 import { Footer } from "./stories/Footer/Footer";
@@ -8,14 +8,48 @@ import PopUp from "./stories/PopUp/PopUp";
 import { Route, Switch } from "react-router";
 import { HomePage } from "./stories/Pages/Homepage";
 import { SubmitPage } from "./stories/Pages/SubmitPage";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { getBlogs } from "./api/__generated__/getBlogs";
 import { BLOGS } from "./api/queries";
+import BlogCard from "./stories/BlogCard/BlogCard";
+import { ADD_BLOG } from "./api/mutations";
+import { AddBlog } from "./api/__generated__/AddBlog";
 
 function App() {
-  const { loading, error, data } = useQuery<getBlogs>(BLOGS);
+  const { loading, error, data, fetchMore } = useQuery<getBlogs>(BLOGS);
+
+  const [mutateFunction, { data: mutationData }] = useMutation<AddBlog>(
+    ADD_BLOG
+  );
+
   if (loading) return <p>loading..</p>;
 
+  const loadMore = () => {
+    console.log(data?.blogs)
+    if (!data?.blogs?.pageInfo.hasNextPage){
+      alert("No next page")
+      return
+    }
+    fetchMore({
+      variables: {
+        after: data?.blogs?.pageInfo.endCursor,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        const prevNodes=prev?.blogs?.nodes || []
+        const newNodes =fetchMoreResult?.blogs?.nodes || []
+        const prevEdges=prev?.blogs?.edges || []
+        const newEdges =fetchMoreResult?.blogs?.edges || []
+        return Object.assign({}, prev, {
+          blogs: {
+            edges: [...prevEdges, ...newEdges],
+            nodes: [...prevNodes, ...newNodes],
+            pageInfo : fetchMoreResult?.blogs?.pageInfo
+          },
+        });
+      },
+    });
+  };
   return (
     <div className="App">
       <Switch>
@@ -23,13 +57,25 @@ function App() {
         <Route path="/submit" component={SubmitPage} />
       </Switch>
       <ProjectHeader></ProjectHeader>
-      {data?.blogs?.nodes?.map((BLOG) => (
-        <p>{BLOG.name}</p>
-      ))}
+      <Grid container>
+        {data?.blogs?.nodes?.map((Blog) => (
+          <BlogCard
+            BlogId={Blog.blogId}
+            Name={Blog.name}
+            Author={Blog.author}
+            ImageUrl={Blog.imageUrl}
+            Description={Blog.description}
+            Location={Blog.address}
+            Positive={Blog.positive}
+            Negative={Blog.negative}
+          />
+        ))}
+      </Grid>
       <Footer></Footer>
       <PopUp>
-        <SubmitForm />
+        <SubmitForm mutationFunction={mutateFunction} />
       </PopUp>
+      <Button onClick={loadMore}>Load More</Button>
     </div>
   );
 }

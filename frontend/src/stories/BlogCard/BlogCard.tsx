@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { CardActionArea, CardHeader, Divider } from "@material-ui/core";
+import { CardActionArea, CardHeader, Divider, Grid } from "@material-ui/core";
 import makeBlogCardStyles from "./BlogCardStyles";
 
 const useStyles = makeStyles({
@@ -49,23 +49,28 @@ const BlogCard = ({
   const styles = makeBlogCardStyles();
 
   return (
-    <div>
-      <Card className={styles.card} variant={"outlined"}>
+    <Grid xs={3}>
+      <Card className={styles.card} style={{height:"100%"}}variant={"outlined"}>
         <CardActionArea className={styles.wrapper}>
-          <CardHeader className={styles.header} title={Name} />
+          <CardHeader className={styles.header} title={Name} variant="h1" />
           <Divider className={styles.divider} />
           <CardContent>
-            {BlogId}
-            {Author}
-            {Location}
-            {Positive}
-            {Negative}
-            {Description}
-            <img width="100px" src={ImageUrl} alt={Name}></img>
+            <Grid container>
+            <Grid xs={12} sm={6}>
+              <Typography> {BlogId} </Typography>
+              <Typography> {Author} </Typography>
+              <Typography> {Location} </Typography>
+              <Typography> {Description} </Typography>
+            </Grid>
+            <Grid xs={12} sm={6}>
+              <img width="100px" src={ImageUrl} alt={Name}></img>
+              <Typography> Positive = {Positive} Negative= {Negative}</Typography>
+            </Grid>
+            </Grid>
           </CardContent>
         </CardActionArea>
       </Card>
-    </div>
+    </Grid>
   );
 };
 export default BlogCard;

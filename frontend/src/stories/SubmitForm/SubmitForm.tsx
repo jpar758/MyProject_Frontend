@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextField, Typography, Grid, Container } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "../Button";
+import { AddBlogVariables } from "../../api/__generated__/AddBlog";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -10,9 +11,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
-export interface SubmitFormProps {}
+export interface SubmitFormProps {
+ mutationFunction : (args:{variables:AddBlogVariables}) => void
+}
 
-export const SubmitForm: React.FC<SubmitFormProps> = () => {
+
+
+export const SubmitForm: React.FC<SubmitFormProps> = ({mutationFunction}) => {
   const classes = useStyles();
   const [authorName, setName] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -24,13 +29,23 @@ export const SubmitForm: React.FC<SubmitFormProps> = () => {
   const [hasFocus, setHasFocus] = useState(false);
 
   
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    console.log("hello")
+    await mutationFunction ({variables:{
+      name: shopName,
+      author: authorName,
+      address: shopLocation,
+      description: description,
+      imageUrl:imageUrl
+    }} )
+  };
 
   const isImageUrl = (value: string) => {
     const urlRegex =
     /(https?:\/\/.*\.(?:png|jpg))/i;
     return urlRegex.test(value);
-  };
+  }
+
 
   return (
     <Container className="form_container">
