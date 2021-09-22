@@ -11,9 +11,11 @@ import { SubmitPage } from "./stories/Pages/SubmitPage";
 import { useMutation, useQuery } from "@apollo/client";
 import { getBlogs } from "./api/__generated__/getBlogs";
 import { BLOGS } from "./api/queries";
-import BlogCard from "./stories/BlogCard/BlogCard";
-import { ADD_BLOG } from "./api/mutations";
+import BlogCard, { CardPopUp } from "./stories/BlogCard/BlogCard";
+import { ADD_BLOG, EDIT_BLOG } from "./api/mutations";
 import { AddBlog } from "./api/__generated__/AddBlog";
+import BlogCardDetail from "./stories/BlogCardDetails/BlogCardDetail";
+import { EditBlog } from "./api/__generated__/EditBlog";
 
 function App() {
   const { loading, error, data, fetchMore } = useQuery<getBlogs>(BLOGS);
@@ -21,6 +23,16 @@ function App() {
   const [mutateFunction, { data: mutationData }] = useMutation<AddBlog>(
     ADD_BLOG
   );
+
+  const [updateMutateFunction, { data: updateMutationData }] = useMutation<EditBlog>(
+    EDIT_BLOG,
+      {refetchQueries:[BLOGS]}
+  );
+
+
+
+
+
 
   if (loading) return <p>loading..</p>;
 
@@ -59,7 +71,7 @@ function App() {
       <ProjectHeader></ProjectHeader>
       <Grid container>
         {data?.blogs?.nodes?.map((Blog) => (
-          <BlogCard
+          <CardPopUp CardButton={<BlogCard
             BlogId={Blog.blogId}
             Name={Blog.name}
             Author={Blog.author}
@@ -68,7 +80,17 @@ function App() {
             Location={Blog.address}
             Positive={Blog.positive}
             Negative={Blog.negative}
-          />
+          />} PopUp={<BlogCardDetail
+            mutationFunction={updateMutateFunction}
+            BlogId={Blog.blogId}
+            Name={Blog.name}
+            Author={Blog.author}
+            ImageUrl={Blog.imageUrl}
+            Description={Blog.description}
+            Location={Blog.address}
+            Positive={Blog.positive}
+            Negative={Blog.negative}
+          />}/>
         ))}
       </Grid>
       <Footer></Footer>

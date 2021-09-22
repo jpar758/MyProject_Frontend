@@ -38,6 +38,7 @@ export const SubmitForm: React.FC<SubmitFormProps> = ({mutationFunction}) => {
       description: description,
       imageUrl:imageUrl
     }} )
+    window.location.reload()
   };
 
   const isImageUrl = (value: string) => {

@@ -17,3 +17,19 @@ mutation AddBlog(
 }
 ${fragments.BLOG}
 `;
+
+
+
+export const EDIT_BLOG = gql`
+mutation EditBlog(    
+  $blogId : Int!
+  $positive : Int!
+  $negative : Int!
+  
+) {
+  editBlog(input: { blogId: $blogId, positive : $positive, negative: $negative}) {
+    ...blogFields
+  }
+}
+${fragments.BLOG}
+`;

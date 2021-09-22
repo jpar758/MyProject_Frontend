@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { CardActionArea, CardHeader, Divider, Grid } from "@material-ui/core";
+import { CardActionArea, CardHeader, Divider, Grid, Modal } from "@material-ui/core";
 import makeBlogCardStyles from "./BlogCardStyles";
 
 const useStyles = makeStyles({
@@ -49,7 +49,7 @@ const BlogCard = ({
   const styles = makeBlogCardStyles();
 
   return (
-    <Grid xs={3}>
+    
       <Card className={styles.card} style={{height:"100%"}}variant={"outlined"}>
         <CardActionArea className={styles.wrapper}>
           <CardHeader className={styles.header} title={Name} variant="h1" />
@@ -60,7 +60,6 @@ const BlogCard = ({
               <Typography> {BlogId} </Typography>
               <Typography> {Author} </Typography>
               <Typography> {Location} </Typography>
-              <Typography> {Description} </Typography>
             </Grid>
             <Grid xs={12} sm={6}>
               <img width="100px" src={ImageUrl} alt={Name}></img>
@@ -70,7 +69,33 @@ const BlogCard = ({
           </CardContent>
         </CardActionArea>
       </Card>
-    </Grid>
+
   );
 };
+
+  export interface innerPopUpProp{
+    CardButton: JSX.Element
+    PopUp: JSX.Element 
+  }
+  export const CardPopUp = ({CardButton, PopUp}: innerPopUpProp) => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <>
+      <Grid xs={12} sm={6} md={3} onClick={handleOpen}>{CardButton}</Grid>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >{PopUp}
+      </Modal>
+    </>
+  );
+}
+
 export default BlogCard;
+
+
