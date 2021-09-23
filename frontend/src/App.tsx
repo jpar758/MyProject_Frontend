@@ -18,13 +18,13 @@ import BlogCardDetail from "./stories/BlogCardDetails/BlogCardDetail";
 import { EditBlog } from "./api/__generated__/EditBlog";
 
 function App() {
-  const { loading, error, data, fetchMore } = useQuery<getBlogs>(BLOGS);
+  const { loading, data, fetchMore } = useQuery<getBlogs>(BLOGS);
 
-  const [mutateFunction, { data: mutationData }] = useMutation<AddBlog>(
+  const [mutateFunction] = useMutation<AddBlog>(
     ADD_BLOG
   );
 
-  const [updateMutateFunction, { data: updateMutationData }] = useMutation<EditBlog>(
+  const [updateMutateFunction] = useMutation<EditBlog>(
     EDIT_BLOG,
       {refetchQueries:[BLOGS]}
   );

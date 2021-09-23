@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Button, Modal, Typography } from "@material-ui/core";
+import { Box, Button, Modal} from "@material-ui/core";
 
 const style = {
   position: "absolute" as "absolute",
