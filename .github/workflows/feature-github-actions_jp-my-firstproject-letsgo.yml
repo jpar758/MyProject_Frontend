@@ -27,11 +27,17 @@ jobs:
       with:
         node-version: '14.x'
 
+    - uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: npm install, build, and test
       run: |
         npm install
         npm run build --if-present
-        npm run test --if-present
 
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
