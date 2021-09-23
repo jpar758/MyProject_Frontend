@@ -31,6 +31,8 @@ export const SubmitForm: React.FC<SubmitFormProps> = ({mutationFunction}) => {
   
   const handleSubmit = async () => {
     console.log("hello")
+    setSubmit(true) 
+    setHasFocus(true)
     await mutationFunction ({variables:{
       name: shopName,
       author: authorName,
